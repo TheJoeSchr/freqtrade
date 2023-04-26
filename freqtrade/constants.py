@@ -3,7 +3,7 @@
 """
 bot constants
 """
-from typing import Any, Dict, List, Literal, Tuple
+from typing import Any, Dict, List, Literal, Tuple, Optional
 
 from freqtrade.enums import CandleType, PriceType, RPCMessageType
 
@@ -49,7 +49,9 @@ MATH_CLOSE_PREC = 1e-14  # Precision used for float comparisons
 DEFAULT_DATAFRAME_COLUMNS = ['date', 'open', 'high', 'low', 'close', 'volume']
 # Don't modify sequence of DEFAULT_TRADES_COLUMNS
 # it has wide consequences for stored trades files
-DEFAULT_TRADES_COLUMNS = ['timestamp', 'id', 'type', 'side', 'price', 'amount', 'cost']
+DEFAULT_TRADES_COLUMNS = ['timestamp', 'id',
+                          'type', 'side', 'price', 'amount', 'cost']
+DEFAULT_ORDERFLOW_COLUMNS = ['level', 'bid', 'ask', 'delta']
 TRADING_MODES = ['spot', 'margin', 'futures']
 MARGIN_MODES = ['cross', 'isolated', '']
 
@@ -574,7 +576,7 @@ CONF_SCHEMA = {
                                        "properties": {
                                            "shuffle": {"type": "boolean", "default": False},
                                            "nu": {"type": "number", "default": 0.1}
-                                           },
+                                       },
                                        },
                         "shuffle_after_split": {"type": "boolean", "default": False},
                         "buffer_train_data_candles": {"type": "integer", "default": 0}
@@ -689,6 +691,9 @@ ListPairsWithTimeframes = List[PairWithTimeframe]
 
 # Type for trades list
 TradeList = List[List]
+# ticks, pair, timeframe, CandleType
+TickWithTimeframe = Tuple[str, str, CandleType, Optional[int], Optional[int]]
+ListTicksWithTimeframes = List[TickWithTimeframe]
 
 LongShort = Literal['long', 'short']
 EntryExit = Literal['entry', 'exit']
